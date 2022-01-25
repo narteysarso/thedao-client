@@ -1,1 +1,82 @@
 @import 'antd/dist/antd.css';
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@500&family=Neonderthaw&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Lora:wght@500&display=swap');
+#root{
+    height: 100%;
+}
+
+.quote{
+    /* font-family: 'Neonderthaw', cursive; */
+    font-family: 'Lobster', cursive; 
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.f-lora{
+    font-family: 'Lora', serif;
+}
+.banner-heading{
+    color: #6a7bff !important;
+    font-size: 4rem !important;
+    font-family: 'Lora', serif;
+}
+
+.site-layout{
+    min-height: 100%;
+    width: 100%;
+}
+.center-text{
+    text-align: center;
+}
+
+.circle-wrapper{
+    position: absolute;
+    height: calc(100% - 10vw);
+    width: calc(100% - 10vw);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.circle-item{
+    position: absolute;
+}
+
+/* 12em = half the width of the wrapper */
+.deg0 { transform: rotate(-50deg) translate(10em) rotate(40deg);; } 
+.deg30 { transform: rotate(0deg) translate(10em) rotate(-4deg); }
+.deg60 { transform: rotate(50deg) translate(10em) rotate(0deg); }
+.deg120 { transform: rotate(120deg) translate(10em) rotate(-135deg); }
+.deg180 { transform: rotate(225deg) translate(10em) rotate(-225deg); }
+.deg270 { transform: rotate(180deg) translate(10em) rotate(-200deg); }
+
+.d-flex{
+    display: flex;
+}
+
+.j-center{
+    justify-content: center;
+}
+.j-between{
+    justify-content: space-between;
+}
+.a-center{
+    align-items: center;
+}
+
+.tag-item, .tag-heading{
+    font-size: 1.1rem;
+    padding: 5px;
+    margin: 8px;
+}
+
+.tag-item{
+    background-color: #dcdde454;
+    border-radius: 5px;
+}
+
+.p-1{
+    padding: 1rem;
+}
+.p-2{
+    padding: 2rem;
+}
