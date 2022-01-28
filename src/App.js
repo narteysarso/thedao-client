@@ -5,7 +5,7 @@ import WalletModal from './component/modal/WalletModal';
 import ProposalModal from './component/modal/ProposalModal';
 import { DaoProvider } from './context/DaoContext';
 import { BrowserRouter } from 'react-router-dom';
-import RegistrationModal from './component/modal/ConfirmRegistrationModal';
+import RegistrationModal from './component/modal/RegistrationModal';
 
 function App() {
 

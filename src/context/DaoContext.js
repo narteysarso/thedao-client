@@ -1,5 +1,5 @@
-import { createContext, useEffect, useState } from "react";
-import { checkWalletConnection, getAccount } from "../service/wallet";
+import { createContext, useEffect, useState, useCallback } from "react";
+import { checkWalletConnection, getAccount, getMembers } from "../service/wallet";
 
 export const DaoContext = createContext();
 
@@ -11,12 +11,12 @@ const walletStrategy = {
 
 export function DaoProvider({children}){
     const [isConnected, setIsConntected] = useState( checkWalletConnection() );
+    const [isRegistered, setIsRegistered] = useState( checkWalletConnection() );
     const [walletModalVisible, setWalletModalVisible] = useState(false);
     const [proposalModalVisible, setProposalModalVisible] = useState(false);
     const [registrationModalVisible, setRegistrationModalVisible] = useState(false);
     const [error, setError] = useState(null);
     const [account, setAccount] = useState(null);
-
 
     const getWalletAccount = async (stratergy) => {
         try{
@@ -35,15 +35,23 @@ export function DaoProvider({children}){
         }   
     }
 
-
+    const getAllMembers = useCallback( () => async () => {
+        
+        const result = await getMembers();
+        if(result[account]){
+            setIsRegistered(true);
+        }
+    }, [account]);
 
     useEffect(() => {
 
         if(!account){
-            // console.log(isConnected, account);
             setWalletModalVisible(true);
         }
-    },[isConnected, account]);
+
+        getAllMembers();
+
+    },[isConnected, account, getAllMembers]);
 
     return(
         <DaoContext.Provider value={{
@@ -56,7 +64,9 @@ export function DaoProvider({children}){
             isConnected,
             getWalletAccount,
             registrationModalVisible, 
-            setRegistrationModalVisible
+            setRegistrationModalVisible,
+            isRegistered,
+            setIsRegistered
         }}>
             {children}
         </DaoContext.Provider>

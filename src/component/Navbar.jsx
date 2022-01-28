@@ -1,10 +1,10 @@
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Tag, Typography } from "antd";
 import { useContext } from "react"
 import { Link } from "react-router-dom";
 import { DaoContext } from "../context/DaoContext"
 
 export default function Navbar() {
-    const { account, setWalletModalVisible, setRegistrationModalVisible } = useContext(DaoContext);
+    const { account, setWalletModalVisible, setRegistrationModalVisible, isRegistered} = useContext(DaoContext);
 
     
 
@@ -23,7 +23,7 @@ export default function Navbar() {
         <Layout.Header>
             <div className="d-flex" style={{justifyContent: 'space-between'}}>
                 
-                <Menu theme="dark" mode="horizontal" style={{flex: 2}}>
+                <Menu theme="dark" mode="horizontal" style={{flex: 2, marginLeft: '11vw'}}>
                     <Menu.Item key={1}>
                         <Link  to={"/"} >Home</Link>
                     </Menu.Item>
@@ -32,9 +32,15 @@ export default function Navbar() {
                     </Menu.Item>
                 </Menu>
                 <Menu selectable={false} theme="dark" mode="horizontal" style={{flex: 1}} onClick={ handleSubMenuClick }>
-                    <Menu.Item key={1}>
+                    {!isRegistered ? <Menu.Item key={1}>
                         Register
-                    </Menu.Item>
+                    </Menu.Item> : 
+                    <Menu.Item>
+                        Account: &nbsp;
+                        <Tag style={{width: 100}}>
+                            <Typography.Text ellipsis>{account}</Typography.Text> 
+                        </Tag>
+                        </Menu.Item>}
                     {!account && <Menu.Item key={2}>
                         Connect Wallet
                     </Menu.Item>}
