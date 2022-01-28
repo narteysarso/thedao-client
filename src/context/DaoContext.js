@@ -13,6 +13,7 @@ export function DaoProvider({children}){
     const [isConnected, setIsConntected] = useState( checkWalletConnection() );
     const [walletModalVisible, setWalletModalVisible] = useState(false);
     const [proposalModalVisible, setProposalModalVisible] = useState(false);
+    const [registrationModalVisible, setRegistrationModalVisible] = useState(false);
     const [error, setError] = useState(null);
     const [account, setAccount] = useState(null);
 
@@ -39,7 +40,7 @@ export function DaoProvider({children}){
     useEffect(() => {
 
         if(!account){
-            console.log(isConnected, account);
+            // console.log(isConnected, account);
             setWalletModalVisible(true);
         }
     },[isConnected, account]);
@@ -53,7 +54,9 @@ export function DaoProvider({children}){
             error,
             account,
             isConnected,
-            getWalletAccount
+            getWalletAccount,
+            registrationModalVisible, 
+            setRegistrationModalVisible
         }}>
             {children}
         </DaoContext.Provider>

@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import { useContext } from "react";
 import { DaoContext } from "../../context/DaoContext";
-import ProposalSteps from "../proposal/Steps";
+import ProposalSteps from "../forms/proposal/Steps";
 
 export default function ProposalModal({visible, handleSubmit, ...props}){
 

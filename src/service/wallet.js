@@ -31,3 +31,29 @@ export async function getAccount(){
     }
     return accounts[0];
 }
+
+export async function register( account, value){
+    const contract = connectToBlockchain();
+
+    const txn = await contract.register({from: account, value: value });
+
+    await txn.wait();
+
+    return txn.hash;
+}
+
+export async function isRegistered(account){
+    const contract = connectToBlockchain();
+
+    const result = await contract.isRegistered(account);
+
+    return result;
+}
+
+export async function vote(proposal, voteOption){
+    const contract = connectToBlockchain();
+
+    const result = await contract.vote(proposal, voteOption);
+
+    return result;
+}
