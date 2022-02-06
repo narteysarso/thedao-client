@@ -19,15 +19,22 @@ const formItemLayout = {
   };
 
   
-export default function VoteOptionsForm() {
+export default function VoteOptionsForm({voteOptions = [], action}) {
 
+    const handleValuesChange = (changeValues, allValues) => {
+        action( allValues)
+    }
     return (
-        <Form {...formItemLayoutWithOutLabel}>
+        <Form {...formItemLayoutWithOutLabel}
+        onValuesChange={handleValuesChange}
+        
+        >
             <Form.List
                 name="voteOptions"
-                
+                initialValue={voteOptions}
             >
                 {
+                   
                     (fields, { add, remove }, errors) => (
                         <>
                             {
@@ -35,9 +42,10 @@ export default function VoteOptionsForm() {
                                     <Form.Item
                                         {...(idx === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
                                         label={idx === 0 ? 'Vote Options' : ''}
+                                        key={idx}
                                         >
                                         <Form.Item
-                                            
+                                            initialValue={""}
                                             {...field}
                                             validateTrigger={['onChange', 'onBlur']}
                                             rules={[
@@ -49,7 +57,7 @@ export default function VoteOptionsForm() {
                                             ]}
                                             noStyle
                                         >
-                                            <Input eholder="passenger name" style={{ width: '60%' }} />
+                                            <Input  style={{ width: '60%' }} />
                                         </Form.Item>
                                         {fields.length > 1 ? (
                                             <MinusCircleOutlined
