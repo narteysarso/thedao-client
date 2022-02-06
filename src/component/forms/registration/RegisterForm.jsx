@@ -1,3 +1,4 @@
+
 import { Button, Col, Form, Input, InputNumber, Row } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { DaoContext } from "../../../context/DaoContext";
@@ -5,38 +6,48 @@ import { register } from "../../../service/wallet";
 
 
 export default function RegisterForm() {
-    const { account, setIsRegistered } = useContext(DaoContext);
-    const [registerInfo, setRegisterInfo] = useState(null)
-    const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(false)
-    const handleSubmit = ({ fee}) => {
-        
-       setRegisterInfo({value: fee.toString()})
+    const { account, setIsRegistered, setRegistrationModalVisible } = useContext(DaoContext);
+    const [registerInfo, setRegisterInfo] = useState(null);
+    
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = ({ username, imageUrl = "", fee }) => {
+
+        setRegisterInfo({username, imageUrl,  value: fee.toString() })
     }
 
+    
+
     useEffect(() => {
-        
+
         (async () => {
-            
+
             try {
                 setLoading(true);
-                if(!registerInfo){
-                   throw Error("Registration details required")
+                if (!registerInfo) {
+                    throw Error("Registration details required")
                 }
-                
-                const txn = await register(registerInfo.value);
+
+                const txnHash = await register(registerInfo.username, registerInfo.imageUrl, registerInfo.value);
+
+                if (!txnHash) {
+                    return;
+                }
 
                 setIsRegistered(true);
+                setRegistrationModalVisible(false);
 
             } catch (error) {
                 setError(error.message)
-            }finally{
+            } finally {
                 setLoading(false)
             }
 
         })();
 
-    }, [registerInfo]);
+    }, [registerInfo, setIsRegistered]);
+
 
     return (
         <Row justify="center">
@@ -48,6 +59,19 @@ export default function RegisterForm() {
                     }}
                     onFinish={handleSubmit}
                 >
+                   
+                    <Form.Item
+                        label="Username"
+                        name="username"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please provide a valid account",
+                            }
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
                     <Form.Item
                         label="Account"
                         name="account"
