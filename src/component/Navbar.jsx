@@ -6,8 +6,6 @@ import { DaoContext } from "../context/DaoContext"
 export default function Navbar() {
     const { account, setWalletModalVisible, setRegistrationModalVisible, isRegistered} = useContext(DaoContext);
 
-    
-
     const handleSubMenuClick = ({ key,...rest}) => {
         if(key === "1"){
             setRegistrationModalVisible(true);
@@ -35,13 +33,13 @@ export default function Navbar() {
                     {!isRegistered ? <Menu.Item key={1}>
                         Register
                     </Menu.Item> : 
-                    <Menu.Item>
+                    <Menu.Item key={2}>
                         Account: &nbsp;
                         <Tag style={{width: 100}}>
                             <Typography.Text ellipsis>{account}</Typography.Text> 
                         </Tag>
                         </Menu.Item>}
-                    {!account && <Menu.Item key={2}>
+                    {!account && <Menu.Item key={3}>
                         Connect Wallet
                     </Menu.Item>}
                 </Menu>
