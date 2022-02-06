@@ -2,7 +2,7 @@ import { ethers, utils } from "ethers";
 import DAO from "../contract/DAO.json";
 
 const abi = DAO.abi;
-const CONTRACT_ADDRESS = "0x35270F28EBE8BEFF0B4772D21a2AdAE84d2d43a7";
+const CONTRACT_ADDRESS = "0x63b9fD8765bd565ad44BA6BaF644eE59951fB526";
 
 export function checkWalletConnection() {
     if (!window.ethereum) {
@@ -33,32 +33,51 @@ export async function getAccount() {
     return accounts[0];
 }
 
-export async function register(value) {
-    try {
+export async function register(username, imageUrl, value) {
+
+        if(!username){
+            throw Error('username is required')
+        }
+
         const contract = connectToBlockchain();
 
         const amountInWei = utils.parseEther(value);
 
-        const txn = await contract.registerMember({ value: amountInWei });
+        const txn = await contract.registerMember(username, imageUrl, { value: amountInWei });
 
         await txn.wait();
 
         return txn.hash;
-    } catch (error) {
-        console.log(error)
-    }
 
 }
 
-
 export async function getMembers() {
-    console.log('dda')
     const contract = connectToBlockchain();
 
     const result = await contract.getMembers();
-
-    console.log(result);
+    
     return result;
+}
+
+export async function checkRegistration(account){
+    const contract = connectToBlockchain();
+
+    const result = await contract.checkRegistered(account);
+
+    return result;
+}
+
+export async function createProposal(title, isActive, options){
+    const contract = connectToBlockchain();
+
+    const txn = await contract.createProposal(title, isActive, options);
+
+    const receipts = await txn.wait();
+
+    console.log(receipts);
+
+    return txn.hash;
+
 }
 
 export async function vote(proposal, voteOption) {
@@ -67,4 +86,13 @@ export async function vote(proposal, voteOption) {
     const result = await contract.vote(proposal, voteOption);
 
     return result;
+}
+
+
+export async function getProposals(){
+    const contract = connectToBlockchain();
+    const eventsLog = await contract.queryFilter(contract.filters.ProposalCreated());
+    const proposals = eventsLog.map( event => ({author: event.args.author, _author: event.args._author, proposal: event.args.proposal, options : event.args.options}));
+
+    return proposals;
 }
