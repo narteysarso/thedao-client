@@ -1,11 +1,11 @@
 import './App.css';
 import { MainLayout } from './component/layout/MainLayout';
-import { Welcome } from './component/page/Welcome';
 import WalletModal from './component/modal/WalletModal';
 import ProposalModal from './component/modal/ProposalModal';
 import { DaoProvider } from './context/DaoContext';
 import { BrowserRouter } from 'react-router-dom';
 import RegistrationModal from './component/modal/RegistrationModal';
+import { RouteController } from './route';
 
 function App() {
 
@@ -16,7 +16,7 @@ function App() {
           <RegistrationModal />
           <ProposalModal />
           <WalletModal />
-          <Welcome />
+         <RouteController />
         </MainLayout>
       </BrowserRouter>
     </DaoProvider>
