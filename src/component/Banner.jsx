@@ -6,7 +6,7 @@ import qoutes from "../quotes.json";
 import BackgroundPattern from "./BackgroundPattern";
 
 export default function Banner() {
-    const {setRegistrationModalVisible} = useContext(DaoContext)
+    const {account, setRegistrationModalVisible} = useContext(DaoContext)
     return (
         <Row justify="center" align="center" style={{ backgroundColor: "whitesmoke" }}>
            <BackgroundPattern />
@@ -23,9 +23,9 @@ export default function Banner() {
                     Join our DAO with 0.0001 ether to submit proposals and vote on proposals by others. <br/>
                 </Typography.Paragraph>
                 <Typography.Title level={5}>The power is yours!!!</Typography.Title>
-                <Button aria-label="join button" type="primary" shape="round" size="large" onClick={() => setRegistrationModalVisible(true)}>
+                {!account && <Button aria-label="join button" type="primary" shape="round" size="large" onClick={() => setRegistrationModalVisible(true)}>
                     Join us
-                </Button>
+                </Button>}
             </Col>
             <Col xs={24} md={12} style={{ paddingTop: "4vw", paddingLeft: "1vw", minHeight: "400px" }}>
                 <div className="circle-wrapper">
