@@ -1,8 +1,9 @@
-import { Col, DatePicker, Form, Input, Row, Switch } from "antd";
+import { Col, DatePicker, Form, Input, Row} from "antd";
 
-export default function ProposalInfoForm({title ="" , isActive = true, action}){
+export default function ProposalInfoForm({title ="" , action}){
 
     const handleValuesChange = (changedValues, allvalues) => {
+
         action(allvalues);
     }
 
@@ -28,17 +29,11 @@ export default function ProposalInfoForm({title ="" , isActive = true, action}){
                     </Form.Item>
                     <Form.Item
                         label="Due Date:"
+                        name="endDate"
                         >
                         <DatePicker style={{width:'100%'}} />
                     </Form.Item>
-                    <Form.Item
-                        name="isActive"
-                        label="isActive"
-                        initialValue={isActive}
-                        valuePropName="checked"
-                    >
-                        <Switch />
-                    </Form.Item>
+                    
                 </Form>
             </Col>
         </Row>

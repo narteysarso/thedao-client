@@ -1,5 +1,5 @@
 
-import { Button, Col, Form, Input, InputNumber, Row } from "antd";
+import { Button, Col, Form, Input, InputNumber, message, Row } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { DaoContext } from "../../../context/DaoContext";
 import { register } from "../../../service/wallet";
@@ -8,7 +8,6 @@ import { register } from "../../../service/wallet";
 export default function RegisterForm() {
     const { account, setIsRegistered, setRegistrationModalVisible } = useContext(DaoContext);
     const [registerInfo, setRegisterInfo] = useState(null);
-    
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -26,7 +25,7 @@ export default function RegisterForm() {
             try {
                 setLoading(true);
                 if (!registerInfo) {
-                    throw Error("Registration details required")
+                    return;
                 }
 
                 const txnHash = await register(registerInfo.username, registerInfo.imageUrl, registerInfo.value);
@@ -47,6 +46,12 @@ export default function RegisterForm() {
         })();
 
     }, [registerInfo, setIsRegistered]);
+
+
+    useEffect(() => {
+        error && message.error(error);
+    }, [error]);
+
 
 
     return (

@@ -1,11 +1,13 @@
 import { Col, Row, Steps, Button, message } from "antd";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import { useEffect } from "react/cjs/react.development";
+import { DaoContext } from "../../../context/DaoContext";
 import { createProposal } from "../../../service/wallet";
 import ProposalInfoForm from "./ProposalInfoForm";
 import VoteOptionsForm from "./VoteOptionsForm";
 
 export default function ProposalSteps() {
+    const {setCreatedProposals, createdProposals} = useContext(DaoContext)
     const [formData, setFormData] = useState({});
     const [sendForm, setSendForm] = useState(false);
     const [error, setError] = useState(null);
@@ -39,25 +41,26 @@ export default function ProposalSteps() {
     };
 
     useEffect(() => {
+        
         (async() => {
             try {
                 if(!sendForm){
                     return;
                 }
 
-                if(!formData?.title || !formData?.isActive || formData?.voteOptions.length < 1){
+                if(!formData?.title || formData?.voteOptions.length < 1){
                     //execute form.validate()
                     return;
                 }
 
-                const hash = await createProposal(formData.title, formData.isActive, formData.voteOptions)
+                const txn= await createProposal(formData.title, formData.voteOptions, Date.parse(formData.endDate) )
                 
                 message.success("Proposal Created!!", () => {
                     setFormData({})
-                })
+                    setCreatedProposals([{ author : txn.events[0].args[3], _author  :txn.events[0].args[0],  proposal: txn.events[0].args[2], options : txn.events[0].args[4], timestamp: txn.events[0].args[5]}, ...createdProposals])
+                });
                 
             } catch (error) {
-                console.log(error);
                 setError(error.message);
     
             }finally{
@@ -67,6 +70,11 @@ export default function ProposalSteps() {
        
        
     }, [formData,sendForm]);
+
+
+    useEffect(() => {
+        error && message.error(error);
+    }, [error]);
 
     return (
         <Row>

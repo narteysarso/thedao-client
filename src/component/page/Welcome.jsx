@@ -37,33 +37,6 @@ export function Welcome() {
                     </Col>
                 </Row>
             </Col>
-            <Col span={24}>
-                <Row className="bg-gradient p-2" justify="center" align="center">
-                    <Col style={{ height: "50vh", }}>
-                        <Typography.Title level={3} >Merits of DAO</Typography.Title>
-                        <div className="d-flex j-center a-center mt-2" >
-
-                            <FloatTag className="float-tag float-tag-deg0" style={{ width: 310, backgroundColor: '#fdfdfd', top: "35%" }}>
-                                <Avatar /> Usually flat, and fully democratized.
-                            </FloatTag>
-                            <FloatTag className="float-tag float-tag-deg60" style={{ width: 300, backgroundColor: '#fdfdfd', top: "35%" }}>
-                                <Avatar /> Voting required by members for any changes to be implemented.
-                            </FloatTag>
-                            <FloatTag className="float-tag float-tag-deg120" style={{ width: 300, backgroundColor: '#fdfdfd', top: "35%" }}>
-                                <Avatar /> Votes tallied, and outcome implemented automatically without trusted intermediary.
-                            </FloatTag>
-                            <FloatTag className="float-tag float-tag-deg180" style={{ width: 300, backgroundColor: '#fdfdfd', top: "35%" }}>
-                                <Avatar /> Services offered are handled automatically in a decentralized manner
-                            </FloatTag>
-                            <FloatTag className="float-tag" style={{ width: 300, backgroundColor: '#fdfdfd', top: "35%" }}>
-                                <Avatar /> All activity is transparent and fully public
-                            </FloatTag>
-
-                        </div>
-
-                    </Col>
-                </Row>
-            </Col>
         </Row>
     )
 }

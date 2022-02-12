@@ -2,7 +2,7 @@ import { ethers, utils } from "ethers";
 import DAO from "../contract/DAO.json";
 
 const abi = DAO.abi;
-const CONTRACT_ADDRESS = "0x63b9fD8765bd565ad44BA6BaF644eE59951fB526";
+const CONTRACT_ADDRESS = "0xAFB8e94138Bb5415198f32789d2C6A6c9Ee4367e";
 
 export function checkWalletConnection() {
     if (!window.ethereum) {
@@ -61,38 +61,73 @@ export async function getMembers() {
 
 export async function checkRegistration(account){
     const contract = connectToBlockchain();
-
     const result = await contract.checkRegistered(account);
 
     return result;
 }
 
-export async function createProposal(title, isActive, options){
+export async function createProposal(title, options, endDate = null){
     const contract = connectToBlockchain();
 
-    const txn = await contract.createProposal(title, isActive, options);
+    const txn = await contract.createProposal(title, options, endDate);
 
     const receipts = await txn.wait();
 
-    console.log(receipts);
-
-    return txn.hash;
+    return receipts;
 
 }
 
-export async function vote(proposal, voteOption) {
+export async function getProposalAttributes(title){
     const contract = connectToBlockchain();
 
-    const result = await contract.vote(proposal, voteOption);
+    const attribs = await contract.getProposalAttributes(title);
+
+
+    return attribs;
+
+}
+
+export async function castVote(proposal, voteOption) {
+    const contract = connectToBlockchain();
+
+    const txn = await contract.vote(proposal, voteOption);
+
+    const result = await txn.wait();
 
     return result;
 }
 
-
 export async function getProposals(){
     const contract = connectToBlockchain();
     const eventsLog = await contract.queryFilter(contract.filters.ProposalCreated());
-    const proposals = eventsLog.map( event => ({author: event.args.author, _author: event.args._author, proposal: event.args.proposal, options : event.args.options}));
+    const proposals = eventsLog.map( event => ({...event.args}));
+    return proposals.reverse();
+}
 
-    return proposals;
+async function getVoteCast(sender = null, voteOption = null, proposal = null){
+
+    const contract = connectToBlockchain();
+
+    const topics = contract.filters.VoteCasted(sender, voteOption, proposal);
+
+    const eventsLog = await contract.queryFilter(topics)
+
+    const castedvotes = eventsLog.map(event => ({...event.args}));
+
+    return castedvotes.reverse();
+}
+
+export async function getProposalVoteCast(proposal){
+    return getVoteCast(null, null, proposal);
+}
+
+export async function markProposalClosed(proposal){
+
+    const contract = connectToBlockchain();
+
+    const txn = await contract.markProposalClosed(proposal);
+
+    const result = await txn.wait();
+
+    return result;
 }
