@@ -204,6 +204,7 @@ export default function ProposalDrawer({ setVisible, visible, proposal, ...props
         <Drawer
             closable
             onClose={() => { setVisible(false) }}
+            width={500}
             visible={visible}>
 
             <Spin spinning={state.loading}>

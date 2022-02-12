@@ -36,7 +36,6 @@ export default function Proposal() {
     }, [search]);
 
     useEffect(() => {
-        console.log('get error')
         error && message.error(error);
     }, [error]);
 

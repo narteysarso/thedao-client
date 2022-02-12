@@ -2,7 +2,7 @@ import { ethers, utils } from "ethers";
 import DAO from "../contract/DAO.json";
 
 const abi = DAO.abi;
-const CONTRACT_ADDRESS = "0xAFB8e94138Bb5415198f32789d2C6A6c9Ee4367e";
+
 
 export function checkWalletConnection() {
     if (!window.ethereum) {
@@ -19,7 +19,7 @@ export function connectToBlockchain() {
 
     const signer = provider.getSigner();
 
-    const connection = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+    const connection = new ethers.Contract(process.env.REACT_APP_CONTRACT_ADDRESS, abi, signer);
 
     return connection;
 }
