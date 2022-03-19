@@ -1,6 +1,5 @@
 import { Col, Row, Steps, Button, message } from "antd";
-import { useCallback, useContext, useMemo, useState } from "react";
-import { useEffect } from "react/cjs/react.development";
+import { useCallback, useContext, useMemo, useState, useEffect } from "react";
 import { DaoContext } from "../../../context/DaoContext";
 import { createProposal } from "../../../service/wallet";
 import ProposalInfoForm from "./ProposalInfoForm";
