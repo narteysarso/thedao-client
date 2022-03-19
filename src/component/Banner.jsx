@@ -20,7 +20,8 @@ export default function Banner() {
                     "
                 </Typography.Paragraph> 
                 <Typography.Paragraph>
-                    Join our DAO with 0.0001 ether to submit proposals and vote on proposals by others. <br/>
+                    Join our DAO with 0.0001 ether to submit proposals and vote on proposals by others. 
+                    <b>This is a test app on the rinkeby network</b>
                 </Typography.Paragraph>
                 <Typography.Title level={5}>The power is yours!!!</Typography.Title>
                 {!account && <Button aria-label="join button" type="primary" shape="round" size="large" onClick={() => setRegistrationModalVisible(true)}>
